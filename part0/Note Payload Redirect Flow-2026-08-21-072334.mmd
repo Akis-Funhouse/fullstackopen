@@ -1,0 +1,33 @@
+sequenceDiagram
+    participant browser
+    participant server
+
+    browser->>server: POST https://helsinki.fi (payload: note content)
+    activate server
+    Note over server: Server saves the note to an array and triggers a 302 redirect
+    server-->>browser: HTTP status code 302 (Redirect to /exampleapp/notes)
+    deactivate server
+
+    browser->>server: GET https://helsinki.fi
+    activate server
+    server-->>browser: HTML document
+    deactivate server
+
+    browser->>server: GET https://helsinki.fi
+    activate server
+    server-->>browser: the css file
+    deactivate server
+
+    browser->>server: GET https://helsinki.fi
+    activate server
+    server-->>browser: the JavaScript file
+    deactivate server
+
+    Note over browser: The browser starts executing the JavaScript code that fetches the JSON from the server
+
+    browser->>server: GET https://helsinki.fi
+    activate server
+    server-->>browser: [{ "content": "HTML is easy", "date": "2023-01-01" }, ... ]
+    deactivate server
+
+    Note over browser: The browser executes the callback function that renders the notes to the page
